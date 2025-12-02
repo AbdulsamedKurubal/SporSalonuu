@@ -1,6 +1,17 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+using Microsoft.AspNetCore.Authentication.Cookies;
+
+// Çerez (Cookie) ile Giriþ Ayarý
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Giriþ yapýlmamýþsa buraya at
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Oturum 60 dk sürsün
+    });
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -17,7 +28,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
