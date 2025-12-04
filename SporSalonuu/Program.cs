@@ -1,36 +1,46 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using SporSalonuu.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-using Microsoft.AspNetCore.Authentication.Cookies;
+// 1. MVC Servisini (Controller ve View'larý) sisteme ekle
+builder.Services.AddControllersWithViews();
 
-// Çerez (Cookie) ile Giriþ Ayarý
+// 2. Veritabaný Baðlantýsý (SporSalonuContext)
+builder.Services.AddDbContext<SporSalonuContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// 3. Çerez (Cookie) ile Kimlik Doðrulama Ayarý
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/Login"; // Giriþ yapýlmamýþsa buraya at
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Oturum 60 dk sürsün
+        // Kullanýcý giriþ yapmamýþsa bu sayfaya yönlendir:
+        options.LoginPath = "/Hesap/Giris";
+        // Oturum 60 dakika boyunca açýk kalsýn:
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     });
-
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Hata ayýklama modlarý (Otomatik gelen kodlar)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(); // wwwroot klasörünü (CSS, JS, Resimler) açar
 
 app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
 
+// --- DÝKKAT: Sýralama Çok Önemli ---
+app.UseAuthentication(); // Önce: Kimsin? (Kimlik Doðrulama)
+app.UseAuthorization();  // Sonra: Yetkin var mý? (Yetkilendirme)
+// ------------------------------------
+
+// Varsayýlan Rota Ayarý (Anasayfa)
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
