@@ -1,32 +1,31 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SporSalonuu.Models;
+using Microsoft.EntityFrameworkCore;
+using SporSalonuu.Data;
+using SporSalonuu.Entities;
+using System.Diagnostics;
 
 namespace SporSalonuu.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly SporSalonuContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(SporSalonuContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            // Anasayfada dersleri (Hizmetleri) listeleyelim.
+            // Yanýnda hangi salona ait olduðunu da getiriyoruz.
+            var dersler = _context.Hizmetler.Include(x => x.Salon).ToList();
+            return View(dersler);
         }
 
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

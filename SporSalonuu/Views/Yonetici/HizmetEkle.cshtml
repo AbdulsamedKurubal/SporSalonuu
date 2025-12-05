@@ -1,0 +1,50 @@
+﻿@model SporSalonuu.Entities.Hizmet
+@{
+    ViewData["Title"] = "Yeni Hizmet Ekle";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3>Yeni Ders/Hizmet Tanımla</h3>
+    <hr />
+
+    <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+    <form asp-action="HizmetEkle" method="post">
+        <div class="mb-3">
+            <label class="form-label">Spor Salonu Seçin</label>
+            <select asp-for="SalonId" class="form-select" required>
+                <option value="">Bir salon seçiniz...</option>
+                @if (ViewBag.Salonlar != null)
+                {
+                    @foreach (var salon in ViewBag.Salonlar as List<SporSalonuu.Entities.Salon>)
+                    {
+                        <option value="@salon.Id">@salon.Ad</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="SalonId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ders Adı (Örn: Pilates, Yoga)</label>
+            <input asp-for="Ad" class="form-control" required />
+            <span asp-validation-for="Ad" class="text-danger"></span>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Süre (Dakika)</label>
+                <input asp-for="SureDakika" type="number" class="form-control" value="60" required />
+                <span asp-validation-for="SureDakika" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label class="form-label">Ücret (TL)</label>
+                <input asp-for="Ucret" type="number" class="form-control" required />
+                <span asp-validation-for="Ucret" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Dersi Kaydet</button>
+    </form>
+    <a href="/Yonetici/HizmetListesi" class="btn btn-secondary w-100 mt-2">Listeye Dön</a>
+</div>

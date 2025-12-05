@@ -1,8 +1,58 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<SporSalonuu.Entities.Hizmet>
+@{
+    ViewData["Title"] = "Anasayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold text-primary">SporSalonuu'na Hoş Geldiniz</h1>
+        <p class="col-md-8 fs-4 mx-auto">Hayalinizdeki vücuda kavuşmak için en iyi antrenörler ve profesyonel salonlar burada sizi bekliyor.</p>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a href="/Hesap/Kayit" class="btn btn-primary btn-lg mt-3">Hemen Üye Ol</a>
+        }
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="text-center mb-4">🏋️ Popüler Dersler & Aktiviteler</h2>
+
+    <div class="row">
+        @if (Model.Count == 0)
+        {
+            <div class="alert alert-warning text-center">
+                Henüz aktif bir ders bulunmamaktadır. Lütfen daha sonra tekrar kontrol edin.
+            </div>
+        }
+
+        @foreach (var ders in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-header bg-dark text-white text-center fw-bold">
+                        @ders.Ad
+                    </div>
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-primary">@(ders.Salon?.Ad ?? "Salon Bilgisi Yok")</h5>
+                        <p class="card-text text-muted">Profesyonel eğitmenler eşliğinde harika bir deneyim.</p>
+
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item">⏳ <strong>Süre:</strong> @ders.SureDakika Dakika</li>
+                            <li class="list-group-item">💰 <strong>Ücret:</strong> @ders.Ucret TL</li>
+                        </ul>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="/Randevu/Al/@ders.Id" class="btn btn-success w-100">📅 Randevu Al</a>
+                        }
+                        else
+                        {
+                            <a href="/Hesap/Giris" class="btn btn-outline-primary w-100">Randevu İçin Giriş Yap</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

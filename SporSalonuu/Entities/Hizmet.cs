@@ -8,7 +8,7 @@
         public decimal Ucret { get; set; }
 
         public int SalonId { get; set; }
-        public virtual Salon Salon { get; set; }
-        public virtual ICollection<Antrenor> Antrenorler { get; set; }
+        public virtual Salon? Salon { get; set; }
+        public virtual ICollection<Antrenor>? Antrenorler { get; set; }
     }
 }
