@@ -10,6 +10,6 @@ namespace SporSalonuu.Entities
         public TimeSpan AcilisSaati { get; set; }
         public TimeSpan KapanisSaati { get; set; }
 
-        public virtual ICollection<Hizmet> Hizmetler { get; set; }
+        public virtual ICollection<Hizmet>? Hizmetler { get; set; }
     }
 }

@@ -7,7 +7,7 @@
         public string Soyad { get; set; }
         public string UzmanlikAlani { get; set; }
 
-        public virtual ICollection<Hizmet> Hizmetler { get; set; }
+        public virtual ICollection<Hizmet>? Hizmetler { get; set; }
         public string TamAd => $"{Ad} {Soyad}";
     }
 }

@@ -1,0 +1,31 @@
+﻿@model SporSalonuu.Entities.Salon
+@{
+    ViewData["Title"] = "Yeni Salon Ekle";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3>Yeni Spor Salonu Ekle</h3>
+    <hr />
+    <form asp-action="SalonEkle" method="post">
+        <div class="mb-3">
+            <label class="form-label">Salon Adı</label>
+            <input asp-for="Ad" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Adres</label>
+            <textarea asp-for="Adres" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Açılış Saati</label>
+                <input asp-for="AcilisSaati" type="time" class="form-control" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Kapanış Saati</label>
+                <input asp-for="KapanisSaati" type="time" class="form-control" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Kaydet</button>
+    </form>
+    <a href="/Yonetici/SalonListesi" class="btn btn-secondary w-100 mt-2">Listeye Dön</a>
+</div>

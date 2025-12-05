@@ -1,0 +1,40 @@
+﻿@model SporSalonuu.Entities.Antrenor
+@{
+    ViewData["Title"] = "Yeni Antrenör Ekle";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h3>Yeni Antrenör Tanımla</h3>
+    <hr />
+
+    <form asp-action="AntrenorEkle" method="post">
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Ad</label>
+                <input asp-for="Ad" class="form-control" required />
+                <span asp-validation-for="Ad" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label class="form-label">Soyad</label>
+                <input asp-for="Soyad" class="form-control" required />
+                <span asp-validation-for="Soyad" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Uzmanlık Alanı</label>
+            <select asp-for="UzmanlikAlani" class="form-select" required>
+                <option value="">Seçiniz...</option>
+                <option value="Fitness & Vücut Geliştirme">Fitness & Vücut Geliştirme</option>
+                <option value="Yoga Eğitmeni">Yoga Eğitmeni</option>
+                <option value="Pilates Eğitmeni">Pilates Eğitmeni</option>
+                <option value="Kilo Verme Koçu">Kilo Verme Koçu</option>
+                <option value="Crossfit">Crossfit</option>
+            </select>
+            <span asp-validation-for="UzmanlikAlani" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Antrenörü Kaydet</button>
+    </form>
+    <a href="/Yonetici/AntrenorListesi" class="btn btn-secondary w-100 mt-2">Listeye Dön</a>
+</div>
